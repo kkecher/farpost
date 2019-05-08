@@ -108,6 +108,7 @@ if 'http' in mode:
     titles_list = collect_titles()
 else:
     titles_list = collect_titles_from_file()
+
 with open(results, 'w') as f:
     for title in titles_list:
         f.write(title + '\n')
