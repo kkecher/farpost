@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''
 Собирает заголовки объявлений из вьюдира
 Вход: URL вьюдира или файл с URL'ами
@@ -48,7 +50,7 @@ def collect_titles():
     print()
 
     while i <= page_total:
-        print('Doing page ' + str(i) + ' out of ' + str(page_total))
+        print('Doing page ' + str(i) + ' of ' + str(page_total))
         if '/?' in dir_url:
             source_page_for_titles = urllib.request.urlopen(dir_url + '&page=' + str(i))
         else:
@@ -83,7 +85,7 @@ def collect_titles_from_file():
     print('Результаты будут выведены в файл «' + str(results) + '»')
     print()
     for url in url_list:
-        print('Doing URL ' + str(i) + ' out of ' + str(len(url_list)))
+        print('Doing URL ' + str(i) + ' of ' + str(len(url_list)))
         source_page_for_titles = urllib.request.urlopen(url)
         for line in source_page_for_titles:
             title = re.findall('data-field="subject" class="inplace">(.*?)<nobr>', line.decode('cp1251'))
