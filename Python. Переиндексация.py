@@ -118,8 +118,8 @@ def reindex():
     else: #загружаем браузер Selenium без картинок
         opt = webdriver.ChromeOptions()
         opt.add_extension("Block-image_v1.1.crx")
-        #browser = webdriver.Chrome(executable_path='/home/arzhanov/Documents/chromedriver', chrome_options=opt) #активировать при работе в Linux
-        browser = webdriver.Chrome(executable_path='D:\OneDrive\Документы\Фарпост\chromedriver.exe', chrome_options=opt) #активировать при работе в Windows
+        #browser = webdriver.Chrome(executable_path='/home/arzhanov/Documents/chromedriver', options=opt) #активировать при работе в Linux
+        browser = webdriver.Chrome(executable_path='D:\OneDrive\Документы\Фарпост\chromedriver.exe', options=opt) #активировать при работе в Windows
         browser.get("https://www.farpost.ru/sign?")
         username = browser.find_element_by_id("sign")
         password = browser.find_element_by_id("password")
