@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''
 Собирает заголовки объявлений и товаров с низкоуровневого поиска
 Вход: id раздела
@@ -12,8 +14,9 @@ from selenium import webdriver
 import re
 import math
 
-dir_id = input('Enter directory id: ')
-search_url = 'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20' + str(dir_id) + '&sort=&zone=default'
+#dir_id = input('Enter directory id: ')
+#search_url = 'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20' + str(dir_id) + '&sort=&zone=default'
+search_url = 'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&itemsPerPage=50&pageNumber=1&query=directoryId%3D776%20and%20type%3Dgood%20and%20subject%20contains%28%27hybrid%27%29&sort=&zone=default'
 result = input('Enter result file: ')
 
 open(result, 'w').close()

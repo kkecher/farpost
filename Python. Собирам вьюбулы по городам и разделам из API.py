@@ -65,9 +65,7 @@ def get_count(search_url):
     Выход: число предложений по указаному URL'у
     '''
     source_page_for_count = urllib.request.urlopen(search_url)
-    for line in source_page_for_count:
-       count = int(line)
-       break
+    count = int(source_page_for_count.read())
     return(count)
 
 

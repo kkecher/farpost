@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''
 Собирает id объявлений и товаров с низкоуровневого поиска
 Вход: id раздела
@@ -13,9 +15,11 @@ import re
 import math
 import time
 
-dir_id = input('Enter directory id: ')
+search_url = input('Enter search URL: ')
+#dir_id = input('Enter directory id: ')
+
 #выводит частные объявления и товары
-search_url = 'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20' + str(dir_id) + '&sort=&zone=default'
+#search_url = 'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20' + str(dir_id) + '&sort=&zone=default'
 
 #выводит только товары
 #search_url = 'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20' + str(dir_id) + '%20and%20type%3Dgood&sort=&zone=default'
@@ -106,6 +110,8 @@ while True:
             id_ = id_.replace('&shy;','')
             id_ = id_.replace('&gt;','>')
             id_ = id_.replace('&#039;','\'')
+            id_ = re.sub(r'06$', '', id_)
+            id_ = '-' + id_
             f.write(id_ + '\n')
     if i == page_total:
         break

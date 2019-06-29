@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''
 Собирает заголовки объявлений из вьюдира по городам. За счет прохождения по отдельным городам дает гораздо больше заголовков, чем при простом обходе по всей России
 Вход: URL вьюдира
@@ -19,7 +21,7 @@ city_file = 'd:\OneDrive\Документы\Фарпост\Archive\Города.
 with open(city_file, 'r') as f:
     city_list = f.readlines()
 
-with open(results, 'w').close()
+open(results, 'w').close()
 
 
 def collect_titles(city_url):

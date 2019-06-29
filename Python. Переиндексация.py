@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''
 Переиндексирует объявления и URL-ы
 Вход: URL вьюдира или файл «id_file» с id-шниками (перед id гудса должен быть дефис)
@@ -41,7 +43,7 @@ def collect_bulletins_id():
     viewbul_count = int(viewbul_count_list[0])
     page_total = (viewbul_count // 50) + 1 #получаем количество страниц через (целочисленное деление + 1)
     print('1 of 2. Collecting bulletins id…')
-    print('Found ' + str(page_total) + ' pages')
+    print(f'Found {page_total} pages')
     if page_total > 180:
         page_total = 180
         print()
@@ -49,7 +51,7 @@ def collect_bulletins_id():
         print()
     
     while i <= page_total:
-        print('Doing page ' + str(i) + ' out of ' + str(page_total))
+        print(f'Doing page {i} of {page_total}')
         if '/?' in dir_url:
             source_page_for_id = urllib.request.urlopen(dir_url + '&page=' + str(i))
         else:
@@ -90,9 +92,9 @@ def reindex():
 
     НУЖНО ПОДТВЕРДИТЬ СЕРТИФИКАТ В БРАУЗЕРЕ ПРИ ЗАПУСКЕ
     '''
-    is_hitler = int(input('Turn on Hitler? 1 = YES, 0 = NO '))
+#    is_hitler = int(input('Turn on Hitler? 1 = YES, 0 = NO '))
 #    is_hitler = 1
-#    is_hitler = 0
+    is_hitler = 0
     if 'http' in mode:
         url_list = collect_bulletins_id()
         print()
@@ -102,7 +104,7 @@ def reindex():
         print('Reindex bulletins…')
     i = 1
     
-    print('Found ' + str(len(url_list)) + ' URLs')
+    print(f'Found {len(url_list)} URLs')
     print('DON\'T FORGET TO ACCEPT CERTIFICATE IN CHROME WINDOW!')
     print()
     if is_hitler: #если Hitler включен, запускаем браузер Selenium с картинками
@@ -127,7 +129,7 @@ def reindex():
         password.send_keys("m4$CEtaxy.V^v*-w\C9K")
         browser.find_element_by_id("signbutton").click()
     for url in url_list:
-        print('Doing URL ' + str(i) + ' out of ' + str(len(url_list)))
+        print(f'Doing URL {i} of {len(url_list)}')
         browser.get(url)
         i += 1
 
@@ -139,4 +141,6 @@ print()
 program_time_hour = int(program_time // 3600)
 program_time_min = int((program_time - program_time_hour*3600) // 60)
 program_time_sec = int(round(program_time - program_time_min*60,0))
-print('Done with ' + str(program_time_hour) + ':' + str(program_time_min) + ':' + str(program_time_sec)) 
+print(f'It took {program_time_hour}:{program_time_min}:{program_time_sec} of my life, silly bastard!') 
+print()
+print(mode)

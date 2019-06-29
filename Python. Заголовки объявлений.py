@@ -17,11 +17,6 @@ mode = input('Enter viewdir URL or file: ')
 results = input('Enter results file: ')
 print()
 
-if '/?' in mode: #Фарпост начал по-умолчанию отправлять в город, который определился по ip, то есть Владивосток. Этот костыль это лечит и возвращает «Всю Россию»
-    mode += '&city=0'
-else:
-    mode += '?city=0'
-
 def collect_titles():
     '''
     Собирает заголовки объявлений из вьюдира
@@ -29,6 +24,10 @@ def collect_titles():
     Выход: список из заголовков
     '''
     dir_url = mode
+    if '/?' in dir_url: #Фарпост начал по-умолчанию отправлять в город, который определился по ip, то есть Владивосток. Этот костыль это лечит и возвращает «Всю Россию»
+        dir_url += '&city=0'
+    else:
+        dir_url += '?city=0'
     i = 1
     titles_list_raw = []
     titles_list = []
@@ -41,16 +40,16 @@ def collect_titles():
             break
     viewbul_count = int(viewbul_count_list[0])
     page_total = (viewbul_count // 50) + 1 #получаем число страниц через (целочисленное деление + 1)
-    print('Found ' + str(page_total) + ' pages')
+    print(f'Found {page_total} pages')
     if page_total > 180:
         page_total = 180
         print()
         print('DOING FIRST 180 PAGES')
-    print('Results will be written in file «' + str(results) + '»')
+    print(f'Results will be written in file «{results}»')
     print()
 
     while i <= page_total:
-        print('Doing page ' + str(i) + ' of ' + str(page_total))
+        print(f'Doing page {i} of {page_total}')
         if '/?' in dir_url:
             source_page_for_titles = urllib.request.urlopen(dir_url + '&page=' + str(i))
         else:
@@ -81,19 +80,19 @@ def collect_titles_from_file():
     i = 1
     with open(titles_file, 'r') as f:
         url_list = f.readlines()
-    print('Found ' + str(len(url_list)) + ' URLs')
-    print('Результаты будут выведены в файл «' + str(results) + '»')
+    print(f'Found {len(url_list)} URLs')
+    print(f'Результаты будут выведены в файл «{results}»')
     print()
-    for url in url_list:
-        print('Doing URL ' + str(i) + ' of ' + str(len(url_list)))
-        source_page_for_titles = urllib.request.urlopen(url)
+    for dir_url in url_list:
+        print(f'Doing URL {i} of {len(url_list)}')
+        source_page_for_titles = urllib.request.urlopen(dir_url)
         for line in source_page_for_titles:
             title = re.findall('data-field="subject" class="inplace">(.*?)<nobr>', line.decode('cp1251'))
 
             if title != []:
                 break
         if title == []:
-            titles_list_raw += [url]
+            titles_list_raw += [dir_url]
         else:
             titles_list_raw += title
         i+=1
