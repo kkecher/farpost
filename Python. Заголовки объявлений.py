@@ -13,8 +13,10 @@
 import urllib.request
 import re
 
-mode = input('Enter viewdir URL or file: ')
-results = input('Enter results file: ')
+#mode = input('Enter viewdir URL or file: ')
+#results = input('Enter results file: ')
+mode = 'temp_мот'
+results='res_мот'
 print()
 
 def collect_titles():
@@ -23,6 +25,7 @@ def collect_titles():
     Вход: URL вьюдира
     Выход: список из заголовков
     '''
+    print('26')
     dir_url = mode
     if '/?' in dir_url: #Фарпост начал по-умолчанию отправлять в город, который определился по ip, то есть Владивосток. Этот костыль это лечит и возвращает «Всю Россию»
         dir_url += '&city=0'
@@ -74,6 +77,7 @@ def collect_titles_from_file():
     Вход: текстовый файл 
     Выход: список из заголовков
     '''
+    print('77')
     titles_file = mode
     titles_list_raw = []
     titles_list = []
@@ -87,7 +91,7 @@ def collect_titles_from_file():
         print(f'Doing URL {i} of {len(url_list)}')
         source_page_for_titles = urllib.request.urlopen(dir_url)
         for line in source_page_for_titles:
-            title = re.findall('data-field="subject" class="inplace">(.*?)<nobr>', line.decode('cp1251'))
+            title = re.findall('data-field="subject" class="inplace.*">(.*?)<nobr>', line.decode('cp1251'))
 
             if title != []:
                 break
@@ -112,4 +116,4 @@ else:
 
 with open(results, 'w') as f:
     for title in titles_list:
-        f.write(title + '\n')
+        f.write(f'{title}\n')
