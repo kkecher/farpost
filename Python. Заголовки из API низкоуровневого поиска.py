@@ -25,8 +25,7 @@ query_list = re.search(r'^.*&(query=.*)&sort=', search_url, flags=re.IGNORECASE)
 URL_query = query_list.group(1)
 
 #загружаем id городов с внешнего файла
-#city_id_file = 'd:\OneDrive\Документы\Фарпост\Масла. Города. id.txt'
-city_id_file = 'd:\OneDrive\Документы\Фарпост\Масла трансмиссионные. Города. id.txt'
+city_id_file = 'd:\OneDrive\Документы\Фарпост\Archive\Города. id.txt'
 with open(city_id_file, 'r') as f:
     city_id_list = f.read().splitlines()
 
