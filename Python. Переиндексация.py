@@ -92,9 +92,9 @@ def reindex():
 
     НУЖНО ПОДТВЕРДИТЬ СЕРТИФИКАТ В БРАУЗЕРЕ ПРИ ЗАПУСКЕ
     '''
-#    is_hitler = int(input('Turn on Hitler? 1 = YES, 0 = NO '))
-#    is_hitler = 1
-    is_hitler = 0
+#    is_stalin = int(input('Turn on stalin? 1 = YES, 0 = NO '))
+    is_stalin = 1
+#    is_stalin = 0
     if 'http' in mode:
         url_list = collect_bulletins_id()
         print()
@@ -107,16 +107,16 @@ def reindex():
     print(f'Found {len(url_list)} URLs')
     print('DON\'T FORGET TO ACCEPT CERTIFICATE IN CHROME WINDOW!')
     print()
-    if is_hitler: #если Hitler включен, запускаем браузер Selenium с картинками
+    if is_stalin: #если stalin включен, запускаем браузер Selenium с картинками
         #browser = webdriver.Chrome(executable_path='/home/arzhanov/Documents/chromedriver') #активировать при работе в Linux
         browser = webdriver.Chrome(executable_path='D:\OneDrive\Документы\Фарпост\chromedriver.exe') #активировать при работе в Windows
         browser.get("https://www.farpost.ru/sign?")
         username = browser.find_element_by_id("sign")
         password = browser.find_element_by_id("password")
-        username.send_keys("IvanArzhanov")
-        password.send_keys("m4$CEtaxy.V^v*-w\C9K")
+        username.send_keys("***")
+        password.send_keys("***")
         browser.find_element_by_id("signbutton").click()
-        input('Turn on HITLER and click «Enter» to continue…') #программа ждет, когда мы включим Hilter и нажмем Enter
+        input('Turn on stalin and click «Enter» to continue…') #программа ждет, когда мы включим Hilter и нажмем Enter
     else: #загружаем браузер Selenium без картинок
         opt = webdriver.ChromeOptions()
         opt.add_extension("Block-image_v1.1.crx")
@@ -125,8 +125,8 @@ def reindex():
         browser.get("https://www.farpost.ru/sign?")
         username = browser.find_element_by_id("sign")
         password = browser.find_element_by_id("password")
-        username.send_keys("IvanArzhanov")
-        password.send_keys("m4$CEtaxy.V^v*-w\C9K")
+        username.send_keys("***")
+        password.send_keys("***")
         browser.find_element_by_id("signbutton").click()
     for url in url_list:
         print(f'Doing URL {i} of {len(url_list)}')

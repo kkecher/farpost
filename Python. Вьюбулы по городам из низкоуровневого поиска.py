@@ -18,13 +18,13 @@ with open (city_ids, 'r') as f:
 
 open(result, 'w').close()
 
-#Выключает картинки, но мы не сможем включить hitler
+#Выключает картинки, но мы не сможем включить stalin
 opt = webdriver.ChromeOptions()
 opt.add_extension("Block-image_v1.1.crx")
 #browser = webdriver.Chrome(executable_path='/home/arzhanov/Documents/chromedriver', chrome_options=opt) #активировать при работе в Linux, поменять путь к chromedriver при необходимости
 browser = webdriver.Chrome(executable_path='D:\OneDrive\Документы\Фарпост\chromedriver.exe', options=opt) #активировать при работе в Windows
 
-#Включаем картинки. Страницы загружаются дольше, но можем включить hitler и поменять ряд других параметров
+#Включаем картинки. Страницы загружаются дольше, но можем включить stalin и поменять ряд других параметров
 #browser = webdriver.Chrome(executable_path='/home/arzhanov/Documents/chromedriver') #активировать при работе в Linux, поменять путь к chromedriver при необходимости
 #browser = webdriver.Chrome(executable_path='D:\OneDrive\Документы\Фарпост\chromedriver.exe') #активировать при работе в Windows
 

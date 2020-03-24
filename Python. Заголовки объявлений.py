@@ -13,10 +13,8 @@
 import urllib.request
 import re
 
-#mode = input('Enter viewdir URL or file: ')
-#results = input('Enter results file: ')
-mode = 'temp_мот'
-results='res_мот'
+mode = input('Enter viewdir URL or file: ')
+results = input('Enter results file: ')
 print()
 
 def collect_titles():
@@ -25,12 +23,11 @@ def collect_titles():
     Вход: URL вьюдира
     Выход: список из заголовков
     '''
-    print('26')
     dir_url = mode
-    if '/?' in dir_url: #Фарпост начал по-умолчанию отправлять в город, который определился по ip, то есть Владивосток. Этот костыль это лечит и возвращает «Всю Россию»
-        dir_url += '&city=0'
-    else:
-        dir_url += '?city=0'
+#    if '/?' in dir_url: #Фарпост начал по-умолчанию отправлять в город, который определился по ip, то есть Владивосток. Этот костыль это лечит и возвращает «Всю Россию»
+#        dir_url += '&city=0'
+#    else:
+#        dir_url += '?city=0'
     i = 1
     titles_list_raw = []
     titles_list = []
@@ -58,7 +55,9 @@ def collect_titles():
         else:
             source_page_for_titles = urllib.request.urlopen(dir_url + '?page=' + str(i))
         for line in source_page_for_titles:
-            titles_list_raw += re.findall('.html.*?>(.*?)</a>', line.decode('cp1251'))
+            titles_list_raw += re.findall('data-stat="\d+">(.*?)</a>', line.decode('cp1251'))
+            if 'Возможно, вам также могут подойти следующие предложения' in line.decode('cp1251'):
+                break
         for title in titles_list_raw:
             if 'img' not in title:
                 title = title.replace('&quot;','"')
@@ -77,7 +76,6 @@ def collect_titles_from_file():
     Вход: текстовый файл 
     Выход: список из заголовков
     '''
-    print('77')
     titles_file = mode
     titles_list_raw = []
     titles_list = []

@@ -18,7 +18,7 @@ with open(city_id, 'r') as f:
 
 open(result, 'w').close()
 
-#Turn off images, but we can't turn on Hitler in this mode
+#Turn off images, but we can't turn on stalin in this mode
 opt = webdriver.ChromeOptions()
 opt.add_extension("Block-image_v1.1.crx")
 browser = webdriver.Chrome(executable_path='/home/arzhanov/Documents/chromedriver', chrome_options=opt)

@@ -19,25 +19,25 @@ search_url = input('Enter search URL: ')
 #dir_id = input('Enter directory id: ')
 
 #выводит частные объявления и товары
-#search_url = 'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20' + str(dir_id) + '&sort=&zone=default'
+#search_url = f'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20{dir_id}&sort=&zone=default'
 
 #выводит только товары
-#search_url = 'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20' + str(dir_id) + '%20and%20type%3Dgood&sort=&zone=default'
+#search_url = f'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20{dir_id}%20and%20type%3Dgood&sort=&zone=default'
 
 #выводит только объявления
-#search_url = 'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20' + str(dir_id) + '%20and%20type%3Dbulletin&sort=&zone=default'
+#search_url = f'http://search-ui.srv.loc/search?agentId=&attributes=&clientId=&command=undefined&facetingAttributes=&filter=&pageNumber=1&query=directoryId%20%3D%20{dir_id}%20and%20type%3Dbulletin&sort=&zone=default'
 
 result = input('Enter result file: ')
 
 open(result, 'w').close()
 
-#Выключаем картинки, но в этом режиме НЕ сможем включить hitler
+#Выключаем картинки, но в этом режиме НЕ сможем включить stalin
 opt = webdriver.ChromeOptions()
 opt.add_extension("Block-image_v1.1.crx")
 #browser = webdriver.Chrome(executable_path='/home/arzhanov/Documents/chromedriver', chrome_options=opt) #активировать при работе в Linux, при необходимости поменять путь к файлу chromedriver
 browser = webdriver.Chrome(executable_path='D:\OneDrive\Документы\Фарпост\chromedriver.exe', chrome_options=opt) #активировать при работе в Windows
 
-#Включает картинки, страницы дольше загружаются, но иногда нужно для включения hitler и прочего
+#Включает картинки, страницы дольше загружаются, но иногда нужно для включения stalin и прочего
 #browser = webdriver.Chrome(executable_path='/home/arzhanov/Documents/chromedriver') #активировать при работе в Linux, при необходимости поменять путь к файлу chromedriver
 #browser = webdriver.Chrome(executable_path='D:\OneDrive\Документы\Фарпост\chromedriver.exe') #активировать при работе в Windows
 
@@ -101,7 +101,7 @@ wait_for_page_load()
 page_total = total_count_pages()
 i = 1
 while True:
-    print('Doing page ' + str(i) + ' of ' + str(page_total))
+    print(f'Doing page  {i} of  {page_total}')
     list_id = get_ids()
     with open(result, 'a') as f:
         for id_ in list_id:
@@ -112,7 +112,7 @@ while True:
             id_ = id_.replace('&#039;','\'')
             id_ = re.sub(r'06$', '', id_)
             id_ = '-' + id_
-            f.write(id_ + '\n')
+            f.write(f'{id_}\n')
     if i == page_total:
         break
     i += 1

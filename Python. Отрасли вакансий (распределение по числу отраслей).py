@@ -10,10 +10,16 @@ industry_file = input('Enter file with industries: ')
 result = input('Enter result file: ')
 dict_industry = {}
 
-with open(industry_file) as f:
-    for line in f:
-        (key, val) = line.split(' — ')
-        dict_industry[key] = val
+try:
+    with open(industry_file, encoding='utf8') as f:
+        for line in f:
+            (key, val) = line.split(' — ')
+            dict_industry[key] = val
+except:
+    with open(industry_file, encoding='cp1251') as f:
+        for line in f:
+            (key, val) = line.split(' — ')
+            dict_industry[key] = val
 
 def count_industries(dict_industry):
     '''

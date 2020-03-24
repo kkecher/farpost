@@ -2,8 +2,12 @@
 
 '''
 Собирает количество вьюбулов по городам и разделам из API низкоуровневого поиска
-Вход: файлы с id городов, id разделов, названиями городов, названиями разделов (ВАЖНО, чтобы порядок id и названий в файлах совпадал). В res_top5_dict нужно записать фигурные скобки «{}»
+Вход: файлы с id городов, id разделов, названиями городов, названиями разделов (ВАЖНО, чтобы порядок id и названий в файлах совпадал).
 Выход: файл с количеством вьюбулов по городам и разделам, файл с ТОП5 городов по разделам
+
+Если скрипт завершился с ошибкой и НЕ дошел до конца — БЕЗ ПАНИКИ. Смотрим в терминале, на каком городе случилась ошибка и удаляем в файлах «Города. id.txt» и «Города. Названия.txt» все строки до этого города.
+
+Если нужно запустить скрипт с нуля, то руками очищаем файлы res_dir_city.txt и res_top5_dict.txt
 '''
 
 import urllib.request
@@ -18,13 +22,13 @@ import natsort
 #res_top5_dict = input('Enter file with dict for top5: ')
 #res_top5 = input('Enter file for top5: ')
 
-city_ids = 'city_id'
-city_names = 'city_name'
-dir_ids = 'dir_id'
-dir_names = 'dir_name'
-res_dir_city = 'res_dir_city'
-res_top5_dict = 'res_top5_dict'
-res_top5 = 'res_top5'
+city_ids = 'Города. id.txt'
+city_names = 'Города. Названия.txt'
+dir_ids = 'Разделы. id.txt'
+dir_names = 'Разделы. Названия.txt'
+res_dir_city = 'res_dir_city.txt'
+res_top5_dict = 'res_top5_dict.txt'
+res_top5 = 'res_top5.txt'
 
 
 #эти части используются при составлении урла для запроса по городу. Если по городу нет предложений, то во все разделы можем сразу записать 0
@@ -57,7 +61,12 @@ with open (dir_names, 'r', encoding='utf-8') as f:
 
 with open(res_top5_dict, 'r') as f:
     dir_city_list = f.read().splitlines()
-    dir_city_dict = json.loads(dir_city_list[0])
+    try:
+        dir_city_dict = json.loads(dir_city_list[0])
+    except:
+        dir_city_list = ['{}']
+        dir_city_dict = json.loads(dir_city_list[0])
+
 
 def get_count(search_url):
     '''
@@ -93,7 +102,7 @@ def dir_clean(dir_id_list, dir_name_list):
         else:
             filled_dir_id_list.append(dir_id)
             filled_dir_name_list.append(dir_name_list[i])
-        i+=1
+        i += 1
     dir_id_list = filled_dir_id_list
     dir_name_list = filled_dir_name_list
     len_empty_dir_list = len(empty_dir_id_list)
@@ -124,11 +133,11 @@ with open(res_dir_city, 'a', encoding='utf-8') as f:
     dir_iter = 0 #итератор для записывания в файл id раздела рядом с его названием
     for dir_name in dir_name_list: #продолжаем записывать в заголовок файла разделы, в которых есть предложения хоть в каких-то городах
         f.write('\t' + str(dir_name) + ' (' + str(dir_id_list[dir_iter]) + ')')
-        dir_iter+=1
+        dir_iter += 1
     empty_dir_iter = 0 #итератор для записывания в файл id пустого раздела рядом с его названием
     for empty_dir_name in empty_dir_name_list: #продолжаем записывать в заголовок файла разделы, в которых нет предложений ни в каких городах
         f.write('\t' + str(empty_dir_name) + ' (' + str(empty_dir_id_list[empty_dir_iter]) + ')')
-        empty_dir_iter+=1
+        empty_dir_iter += 1
     f.write('\n') #закончили записывать заголовок файла
     city_iter = 0
     step_iter = 1
@@ -140,6 +149,7 @@ with open(res_dir_city, 'a', encoding='utf-8') as f:
     for city_id in city_id_list:
         dir_iter = 0 #обнуляем индекс раздела
         city_name = city_name_list[city_iter]
+        city_iter += 1
         f.write(str(city_name) + ' (' + str(city_id) + ')') #записываем название города и его id в первую ячейку
         print('Check city ' + city_name)
 
@@ -152,26 +162,24 @@ with open(res_dir_city, 'a', encoding='utf-8') as f:
             len_empty_string = len_dir_id_list + len(empty_dir_id_list)
             empty_string = len_empty_string * '\t0'
             f.write(empty_string + '\n')
-            city_iter+=1
             step_iter += len_dir_id_list #прибавляем к итератору количество разделов, которые считать не пришлось
             continue
 
         #если в городе каунт не равен нулю, то проходим по всем разделам для этого города и собираем каунты
         for dir_id in dir_id_list:
-            print('Collect counts from ' + str(step_iter) + ' of ' + str(total_iter) + ' dirs in city ' + city_name)
+            print('Doing ' + str(step_iter) + ' of ' + str(total_iter) + ' total steps: city is ' + city_name)
             search_url = url_part_1 + str(dir_id) + url_part_3 + str(city_id)
             total_num = get_count(search_url)
             f.write('\t' + str(total_num))
             dir_city_dict = collect_dir_city_dict(dir_city_dict)
-            step_iter+=1
-            dir_iter+=1
+            step_iter += 1
+            dir_iter += 1
         print()
         f.write(len_empty_dir_list * '\t0') #записываем нули для разделов, где ничего нет во всех городах 
         f.write('\n') #прошлись по всем разделам для текущего города, переходим на следующую строку
         with open(res_top5_dict, 'w') as d: #записываем в res_top5_dict текущее состояние словаря разделов с каунтами по городам
             dir_city_json = json.dumps(dir_city_dict, ensure_ascii=False) #переводим словать в JSON для записи в файл
             d.write(dir_city_json)
-        city_iter+=1
 
 #записываем в файл ТОП5 городов для каждого раздела
 with open (res_top5, 'w') as f:
@@ -185,8 +193,13 @@ with open (res_top5, 'w') as f:
             city_name = city_tuple[0]
             city_count = city_tuple[1]
             f.write(str(city_name) + ' (' + str(city_count) + ')\n')
-            i+=1
+            i += 1
         f.write('\n')
 
 print()
 print('I\'ve done your dirty job, old bastard!')
+print()
+print('Results is in files: ')
+print('— Табличка с каунтами по разделам и городам (делитель - tab): ' + str(res_dir_city))
+print('— Файлик с ТОП5 городов по разделам: ' + str(res_top5))
+print('— Служебный файл на случай, если скрипт сбойнет: ' + str(res_top5_dict))

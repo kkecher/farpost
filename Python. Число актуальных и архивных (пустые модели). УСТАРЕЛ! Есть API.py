@@ -1,7 +1,10 @@
 '''
+ПРОВЕРИТЬ КОРРЕКТНОСТЬ РАБОТЫ! КАЖЕТСЯ, В URL ГДЕ-ТО НЕ ДОПИСЫВАЕТСЯ / ПЛЮСОМ ЛЕММЫ
 Собирает количество актуальных и архивных предложений в разделе
 Вход: файл со списком моделей, URL раздела с «/+/» на конце
 Выход: файл со списком урлов, числом актуальных предложений и числом предложений в архиве
+
+Считает каунты во вьюдире, поэтому объявления под пессимизацией НЕ подсчитаются.
 '''
 
 import urllib.request
@@ -9,9 +12,13 @@ import urllib.parse
 import re
 
 models = input('Enter file with models: ')
+dir_url = input('Enter URL finished by «/+/»: ')
 results = input('Enter result file: ')
-#dir_url = input('Enter URL finished by «/+/»: ')
-dir_url = 'https://www.farpost.ru/auto/wheel/disc/+/'
+#dir_url = 'https://www.farpost.ru/auto/moto/sale/+'
+#https://www.farpost.ru/auto/moto/spares/+
+#https://www.farpost.ru/auto/moto/atv/+
+#https://www.farpost.ru/auto/moto/moped/+
+#https://www.farpost.ru/auto/moto/snow/+
 
 with open(models) as f:
     list_models = f.read().splitlines()

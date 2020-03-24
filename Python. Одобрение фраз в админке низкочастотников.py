@@ -43,7 +43,7 @@ approve_id_list_raw = []
 #Авторизуемся на farpost.ru
 password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
 top_level_url = 'https://www.farpost.ru/sign?return=%2F'
-password_mgr.add_password(None, top_level_url, 'IvanArzhanov', 'm4$CEtaxy.V^v*-w\C9K')
+password_mgr.add_password(None, top_level_url, '***', '***')
 
 handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
 
